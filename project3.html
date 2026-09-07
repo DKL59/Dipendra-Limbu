@@ -237,6 +237,10 @@ ol.howto li::before { counter-increment:s; content:counter(s); left:0; top:9px;
   text-align:center; font-family:"IBM Plex Mono",monospace; font-size:12px;
   color:var(--muted); background:var(--ground); }
 
+/* The CANDID term above each question, so the acronym is legible in place. */
+.qterm { display:block; font-family:"IBM Plex Mono",monospace; font-size:10.5px;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--accent-text);
+  font-weight:500; margin-bottom:5px; }
 .pill { display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:11px;
   border-radius:3px; padding:2px 8px; color:var(--muted);
   border:1px solid var(--rule-strong); }
@@ -286,7 +290,7 @@ footer { border-top:1px solid var(--rule); padding:22px 0 42px;
   <button class="theme-btn" id="tbtn" type="button">theme</button>
 </div></nav><header class="mast"><div class="wrap">
   <a class="crumb" href="index.html">&larr; All projects</a>
-  <div class="kick">03 &middot; Education Analytics</div>
+  <div class="kick">01 &middot; Education Analytics</div>
   <h1>Scholarship Impact Analysis (StudyGroup)</h1>
   <div class="meta"><span>70.5% vs 6.2%</span><span>Chi-Square Test of Independence</span><span>OLS regression</span></div>
   <div class="mast-links"><a class="lnk" href="https://github.com/DKL59/Dipendra-Limbu/blob/main/EDASTUDYGROUP.ipynb">Open the Jupyter Notebook &rarr;</a></div>
