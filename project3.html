@@ -1,4 +1,11 @@
 <title>Education Analytics StudyGroup</title>
+<meta name="description" content="Do scholarship discounts actually move enrolment? StudyGroup application data tested with chi-square and OLS regression: 70.5% enrolment with a scholarship against 6.2% without.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Education Analytics StudyGroup">
+<meta property="og:description" content="Do scholarship discounts actually move enrolment? StudyGroup application data tested with chi-square and OLS regression: 70.5% enrolment with a scholarship against 6.2% without.">
+<meta property="og:url" content="https://dkl59.github.io/Dipendra-Limbu/project3.html">
+<meta property="og:site_name" content="Dipendra Limbu">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -105,6 +112,8 @@ h2 { font-size:14px; font-weight:600; letter-spacing:.01em;
 h2 .l { flex:1; height:1px; background:var(--rule); }
 h3 { font-size:20px; font-weight:600; margin:30px 0 0; }
 h4 { font-size:15px; font-weight:600; margin:22px 0 0; color:var(--ink); }
+/* Sub-headings that sit directly under an h2: h3 for document outline, h4 sizing. */
+h3.sub, .pair h3 { font-size:15px; font-weight:600; margin:22px 0 0; color:var(--ink); }
 p { margin:14px 0 0; max-width:70ch; color:var(--ink-2); }
 p strong, li strong, td strong { color:var(--ink); font-weight:600; }
 ul { margin:14px 0 0; padding:0; list-style:none; max-width:70ch; }
@@ -115,6 +124,10 @@ li::before { content:""; position:absolute; left:0; top:18px; width:7px; height:
   background:var(--accent); }
 code { font-family:"IBM Plex Mono",monospace; font-size:.88em; background:var(--surface);
   border:1px solid var(--rule); border-radius:3px; padding:1px 5px; }
+/* One-line code excerpts: scroll rather than wrap, so the line stays readable. */
+pre { margin:18px 0 0; max-width:76ch; overflow-x:auto; background:var(--surface);
+  border:1px solid var(--rule); border-radius:3px; padding:12px 14px; }
+pre code { background:none; border:none; padding:0; font-size:13px; }
 
 blockquote { margin:20px 0 0; max-width:76ch; padding:18px 22px; background:var(--surface);
   border-left:2px solid var(--accent); border-radius:0 3px 3px 0; }
@@ -133,9 +146,20 @@ th { font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
   color:var(--muted); font-weight:500; border-bottom:1px solid var(--rule-strong); }
 td { color:var(--ink-2); }
 tbody tr:hover td { background:var(--surface); }
+/* Six columns is more than the eye tracks unaided: give the wide numeric
+   tables a faint band per alternate row. */
+.flow tbody tr:nth-child(even) td { background:color-mix(in srgb, var(--surface) 60%, transparent); }
+.flow tbody tr:hover td { background:var(--surface); }
 .flow th { white-space:nowrap; }
-.tnote { font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--muted);
-  margin-top:10px; max-width:none; }
+/* Notes under tables are sentences, not values: set them as prose. */
+.tnote { font-size:14px; line-height:1.55; color:var(--muted);
+  margin-top:10px; max-width:80ch; }
+/* Cells that hold sentences read as prose too. Mono stays for the numeric
+   tables, where column alignment is doing the work. */
+table.prose td { font-family:"Source Serif 4",Georgia,serif; font-size:15px;
+  line-height:1.55; padding:12px 14px; }
+table.prose td li { font-size:15px; }
+table.prose td code { font-size:.86em; }
 td ul { margin:0; max-width:none; }
 td li { border:none; padding:0 0 8px 14px; font-size:13.5px; }
 td li:last-child { border:none; padding-bottom:0; }
@@ -153,7 +177,8 @@ figure { margin:26px 0 0; background:var(--surface); border:1px solid var(--rule
 figure img { display:block; width:100%; height:auto; border-radius:3px; }
 figure video { display:block; width:100%; border-radius:3px; background:var(--ground); }
 figcaption { margin-top:11px; padding-top:9px; border-top:1px solid var(--rule);
-  font-size:11px; color:var(--muted); }
+  font-family:"Source Serif 4",Georgia,serif; font-size:13.5px; line-height:1.5;
+  color:var(--muted); }
 /* figure headings and the horizontal escape hatch for wide charts */
 .fig-t { font-family:"Bricolage Grotesque",sans-serif; font-size:14.5px; font-weight:600; }
 .fig-s { font-size:13px; color:var(--muted); margin:2px 0 14px; }
@@ -235,6 +260,24 @@ footer { border-top:1px solid var(--rule); padding:22px 0 42px;
   .pair { grid-template-columns:1fr; gap:0; }
 }
 @media (max-width:760px) { .nav-l { display:none; } h2 { padding-top:36px; } }
+/* On a phone a percentage-width first column crushes long cells to one or two
+   words per line. Let the columns size themselves and let the table scroll
+   inside its wrapper instead, which .tbl-scroll already allows. */
+@media (max-width:720px) {
+  .q td:first-child { width:auto; }
+  /* Only the wide ones: a three-column numeric table still fits a phone, and
+     forcing it to scroll would hide its values behind the fold. */
+  .tbl-scroll table.prose:not(.stack), .tbl-scroll table.flow { min-width:560px; }
+  table.prose td { font-size:14.5px; padding:11px 12px; }
+  /* Two-column tables are a pairing: scrolling would push half of each pair
+     off-screen, so stack the cells instead and keep both halves together. */
+  .stack, .stack tbody, .stack tr, .stack td { display:block; width:auto; }
+  .stack thead { display:none; }
+  .stack tr { border-bottom:1px solid var(--rule); padding:12px 0; }
+  .stack tr:last-child { border-bottom:none; }
+  .stack td { border:none; padding:3px 0; }
+  .stack td:first-child { width:auto; margin-bottom:2px; }
+}
 </style>
 <nav class="nav"><div class="nav-in">
   <a class="nav-name" href="index.html">Dipendra Limbu</a>
